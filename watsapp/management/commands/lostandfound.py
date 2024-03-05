@@ -1,8 +1,10 @@
 from django.core.management.base import BaseCommand, CommandError
-from watsapp.models import Case, Found
+from watsapp.models import Case, Found, News
 import re
 from urllib.request import urlopen
+import ssl
 
+ssl._create_default_https_context = ssl._create_stdlib_context
 
 class Command(BaseCommand):
     help = "Найти информацию"
@@ -14,7 +16,15 @@ class Command(BaseCommand):
         for case in Case.objects.all():
             print(case)
             data = urlopen(case.url).read().decode('utf8')
-            text = re.findall(case.pattern, data)[0]
+
+            if case.pattern.isdigit():
+                # Если паттерн = числу, используем его сразу
+                text = str(case.pattern)
+            else:
+                # Если это регулярное выражение, используем re
+                text_matches = re.findall(case.pattern, data)
+                text = text_matches[0] if text_matches else ''
+
 
             old_found = Found.objects.filter(case=case).order_by('-created').first()
             if old_found:
