@@ -4,8 +4,8 @@ from .models import Case, Found, News
 
 @admin.register(Case)
 class CaseAdmin(admin.ModelAdmin):
-    list_display = ["name", "user"]
-    list_filter = ['user', ]
+    list_display = ["name", "user", "active"]
+    list_filter = ['user', 'active', ]
 
 @admin.register(Found)
 class FoundAdmin(admin.ModelAdmin):
