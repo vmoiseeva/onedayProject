@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         count = 0
 
-        for case in Case.objects.all():
+        for case in Case.objects.filter(active=True): # Фильтр по галочке активности
             print(case)
             data = urlopen(case.url).read().decode('utf8')
 

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Case(models.Model):
-    name = models.CharField(max_length=70, default="")
+    name = models.CharField(max_length=250, default="")
     url = models.CharField(max_length=250)
     pattern = models.CharField(max_length=250)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
